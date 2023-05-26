@@ -1,0 +1,23 @@
+body {
+    background-color: #ffffff;
+    padding: 0 10px 10px 10px;
+    /*padding: 0 0 0 0;*/
+}
+
+.errorlist {
+    color: red;
+}
+
+.buttonPositive {
+    background-color: green;
+    border: solid green 3px;
+}
+
+.buttonNegative {
+    background-color: red;
+    border: solid red 1px;
+}
+
+.login-form {
+    width: 600px;
+}
