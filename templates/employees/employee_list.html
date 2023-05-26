@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <h1>
+    Employees list
+    {% if user.is_authenticated %}
+      <a href="{% url 'employees:employee-create' %}"
+         class="btn btn-primary link-to-page">
+        Create
+      </a>
+    {% endif %}
+  </h1>
+
+  <form action="" method="get" class="form-inline">
+    {{ search_form|crispy }}
+    <input class="btn btn-secondary" type="submit" value="🔎">
+  </form>
+  <br>
+
+  {% if employee_list %}
+    <table class="styled-table" id="employees-table">
+      <tr>
+{#        <th><a href="?order_by=id">ID</a></th>#}
+        <th data-sort-field="id">ID</th>
+        <th data-sort-field="full_name"><a href="?order_by=full_name">Full name</a></th>
+        <th>Date hired</th>
+        <th>Email</th>
+        <th><a href="?order_by=position">Position</a></th>
+        <th>Manager</th>
+        {% if user.is_authenticated %}
+          <th>Update</th>
+          <th>Delete</th>
+        {% endif %}
+      </tr>
+
+      {% for employee in employee_list %}
+        <tr>
+          <td>
+            {{ employee.id }}
+          </td>
+          <td>
+            {{ employee.full_name }}
+          </td>
+          <td>
+            {{ employee.date_hired }}
+          </td>
+          <td>
+            {{ employee.email }}
+          </td>
+          <td>
+            {{ employee.position }}
+          </td>
+          <td>
+            {{ employee.manager }}
+          </td>
+          {% if user.is_authenticated %}
+            <td>
+              <a href="{% url 'employees:employee-update' pk=employee.id %}">
+                Update
+              </a>
+            </td>
+            <td>
+              <a style="color: red"
+                 href="{% url 'employees:employee-delete' pk=employee.id %}">
+                Delete
+              </a>
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+    <p>There are no employees.</p>
+  {% endif %}
+{% endblock %}
+
+
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Your JavaScript code -->
+<script>
+    $(document).ready(function() {
+        loadTableData();
+
+        // Sort by clicking on table headers
+        $('th[data-sort-field]').on('click', function() {
+            var sortField = $(this).data('sort-field');
+            loadTableData(sortField);
+        });
+    });
+
+    function loadTableData(sortBy) {
+        $.ajax({
+            url: '/employees/',
+            type: 'GET',
+            data: {
+                sort_by: sortBy,
+            },
+            success: function(response) {
+                var tbody = $('#employees-table tbody');
+                tbody.empty();
+
+                // Populate the table with the received data
+                $.each(response.data, function(index, row) {
+                    var tr = $('<tr>');
+                    tr.append('<td>' + row.id + '</td>');
+                    tr.append('<td>' + row.full_name + '</td>');
+                    tbody.append(tr);
+                });
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(errmsg);
+            }
+        });
+    }
+</script>

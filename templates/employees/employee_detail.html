@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    {{ employee.full_name }}
+    <a href="{% url 'employees:employee-delete' pk=employee.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url 'employees:employee-update' pk=employee.id %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
+  </h1>
+  <p><strong>Date hired:</strong> {{ employee.date_hired }}</p>
+  <p><strong>Email:</strong> {{ employee.email }}</p>
+  <p><strong>Position:</strong> {{ employee.position }}</p>
+  <p><strong>Manager:</strong> {{ employee.manager }}</p>
+{% endblock %}

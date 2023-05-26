@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="login-form">
+    <h1>Delete employee?</h1>
+    <form action="" method="post">
+      {% csrf_token %}
+
+      <input type="submit" value="Yes" class="btn btn-danger">
+      <a href="{% url 'employees:employees-list' %}"
+         class="btn btn-success">No</a>
+    </form>
+  </div>
+{% endblock %}
