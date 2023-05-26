@@ -1,10 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import generic
 
-from employees.forms import UserLoginForm, UserRegisterForm
+from employees.forms import UserLoginForm, UserRegisterForm, EmployeeForm
+from employees.models import Employee
 
 
 def index(request):
@@ -72,3 +76,48 @@ def check_username(request):
         "is_taken": User.objects.filter(username__iexact=username).exists()
     }
     return JsonResponse(response)
+
+
+class EmployeeListView(LoginRequiredMixin, generic.ListView):
+    model = Employee
+    paginate_by = 25
+
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super(EmployeeListView, self).get_context_data(**kwargs)
+    #
+    #     model = self.request.GET.get("model", "")
+    #
+    #     context["search_form"] = CarModelSearchForm(initial={
+    #         "model": model
+    #     })
+    #     return context
+    #
+    # def get_queryset(self):
+    #     queryset = Car.objects.select_related("manufacturer")
+    #     form = CarModelSearchForm(self.request.GET)
+    #
+    #     if form.is_valid():
+    #         return queryset.filter(
+    #             model__icontains=form.cleaned_data["model"]
+    #         )
+
+
+class EmployeeDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Employee
+
+
+class EmployeeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Employee
+    form_class = EmployeeForm
+    success_url = reverse_lazy("employees:employees-list")
+
+
+class EmployeeUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Employee
+    form_class = EmployeeForm
+    success_url = reverse_lazy("employees:employees-list")
+
+
+class EmployeeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Employee
+    success_url = reverse_lazy("employees:employees-list")
