@@ -32,7 +32,7 @@ def user_login(request):
             return redirect("employees:index")
     else:
         form = UserLoginForm()
-    return render(request, "employees/login.html", {"form": form})
+    return render(request, "auth/login.html", {"form": form})
 
 
 def user_logout(request):
@@ -57,7 +57,7 @@ def register(request):
         context = {
             "form": form,
         }
-    return render(request, "employees/register.html", context=context)
+    return render(request, "auth/register.html", context=context)
 
 
 def validate_username(request):
@@ -78,21 +78,34 @@ def check_username(request):
     return JsonResponse(response)
 
 
-class EmployeeListView(LoginRequiredMixin, generic.ListView):
+class EmployeeListView(generic.ListView):
     model = Employee
-    paginate_by = 25
+    context_object_name = "employee_list"
+    template_name = "employees/employee_list.html"
+    paginate_by = 10
 
     # def get_context_data(self, *, object_list=None, **kwargs):
     #     context = super(EmployeeListView, self).get_context_data(**kwargs)
     #
     #     model = self.request.GET.get("model", "")
     #
-    #     context["search_form"] = CarModelSearchForm(initial={
-    #         "model": model
-    #     })
+    #     # context["search_form"] = CarModelSearchForm(initial={
+    #     #     "model": model
+    #     # })
     #     return context
     #
-    # def get_queryset(self):
+    def get_queryset(self):
+        queryset = Employee.objects.all()
+        order_by = self.request.GET.get("order_by")
+        # order_by = self.request.GET.get("order_by", "defaultOrderField")
+        # queryset = Employee.objects.all().order_by(order_by)
+        if order_by:
+            return queryset.order_by(order_by)
+
+        return queryset
+        # data = [{"id": item.id, "full_name": item.full_name} for item in queryset]
+        #
+        # return JsonResponse({"data": data})
     #     queryset = Car.objects.select_related("manufacturer")
     #     form = CarModelSearchForm(self.request.GET)
     #
@@ -121,3 +134,11 @@ class EmployeeUpdateView(LoginRequiredMixin, generic.UpdateView):
 class EmployeeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Employee
     success_url = reverse_lazy("employees:employees-list")
+
+
+def employee_hierarchy(request):
+    root_employee = Employee.objects.filter(manager=None).first()
+    context = {
+        "root_employee": root_employee,
+    }
+    return render(request, "employees/hierarchy.html", context=context)
