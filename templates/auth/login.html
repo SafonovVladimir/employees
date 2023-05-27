@@ -1,19 +1,34 @@
 {% extends "base.html" %}
 
 {% block title %}
-  {#    Login :: {{ block.super }}#}
+  <title>Login</title>
 {% endblock %}
 
 
 {% block content %}
-  <div class="login-form">
-    <h1 style="text-align: center">Login</h1>
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary btn-block">Log in</button>
-    </form>
+  <div class="login">
+    <div id="container">
+      <div id="branding" style="text-align: center">
+        <h1 id="site-name">Login</h1>
+      </div>
+      <div class="main" id="main">
+        <div class="content" id="content-start" tabindex="-1">
+          <div id="content" class="colM">
+            <div id="content-main">
+              <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-block">Log
+                  in
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  {#  </div>#}
   {#    <div class="inline-group">#}
   {#        <br><a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-block btn-social btn-google">#}
   {#          <span class="fa fa-google"></span>Sign in with Google#}

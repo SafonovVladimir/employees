@@ -2,19 +2,33 @@
 {% load static %}
 
 {% block title %}
-  {#    Register :: {{ block.super }}#}
+  <title>Register</title>
 {% endblock %}
 
 
 {% block content %}
-  <div class="login-form">
-    <h1 style="text-align: center">Sign Up</h1>
+  <div class="login">
+    <div id="container">
+      <div id="branding" style="text-align: center">
+        <h1 id="site-name">Sign Up</h1>
+      </div>
+      <div class="main" id="main">
+        <div class="content" id="content-start" tabindex="-1">
+          <div id="content" class="colM">
+            <div id="content-main">
 
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary btn-block">Register</button>
-    </form>
+              <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-block">
+                  Register
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   {% block javascript %}
     <script
