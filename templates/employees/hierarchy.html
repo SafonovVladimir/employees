@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Employees Hierarchy</title>
+{% endblock %}
+
+{% block content %}
+  <h1>Employee Hierarchy</h1>
+
+  <div class="tree">
+    <a href="{% url 'employees:employee-detail' pk=root_employee.id %}">
+      {{ root_employee.full_name }} ({{ root_employee.position }})
+    </a>
+    <ul>
+      {#            <li>#}
+      {#                {{ root_employee.full_name }}#}
+      {% if root_employee.employees.all %}
+        {% for subordinate in root_employee.employees.all %}
+          {% include 'employees/employee_node.html' with employee=subordinate %}
+        {% endfor %}
+      {% endif %}
+      {#            </li>#}
+    </ul>
+  </div>
+{% endblock %}

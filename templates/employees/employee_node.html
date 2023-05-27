@@ -1,0 +1,12 @@
+<li>
+  <a href="{% url 'employees:employee-detail' pk=employee.id %}">
+    {{ employee.full_name }} ({{ employee.position }})
+  </a>
+  {% if employee.employees.all %}
+    <ul>
+      {% for subordinate in employee.employees.all %}
+        {% include 'employees/employee_node.html' with employee=subordinate %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+</li>
