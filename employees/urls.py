@@ -6,8 +6,13 @@ from employees.views import (
     user_logout,
     register,
     validate_username,
-    check_username, EmployeeListView, EmployeeDetailView, EmployeeCreateView,
-    EmployeeUpdateView, EmployeeDeleteView
+    check_username,
+    EmployeeListView,
+    EmployeeDetailView,
+    EmployeeCreateView,
+    EmployeeUpdateView,
+    EmployeeDeleteView,
+    employee_hierarchy,
 )
 
 urlpatterns = [
@@ -24,6 +29,8 @@ urlpatterns = [
     path("employees/create/", EmployeeCreateView.as_view(), name="employee-create"),
     path("employees/<int:pk>/update/", EmployeeUpdateView.as_view(), name="employee-update"),
     path("employees/<int:pk>/delete/", EmployeeDeleteView.as_view(), name="employee-delete"),
+
+    path("hierarchy/", employee_hierarchy, name="employees-hierarchy"),
 ]
 
 app_name = "employees"
