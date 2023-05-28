@@ -3,7 +3,6 @@
 {% load query_transform %}
 
 {% block content %}
-  <body class="container-fluid">
   <div class="row">
     <div class="span6" style="float: none; margin: 0 auto;">
       <article class="navbar-form navbar-left p-0 m-0 ml-b">
@@ -109,16 +108,13 @@
       {% endif %}
     </div>
   </div>
-  </body>
 {% endblock %}
 {% block pagination %}
-  <body class="container-fluid">
   <div class="row">
     <div class="span6" style="float: none; margin: 0 auto;">
       {% include "includes/pagination.html" %}
     </div>
   </div>
-  </body>
 {% endblock %}
 
 <!-- Include jQuery library -->
