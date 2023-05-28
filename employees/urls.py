@@ -13,6 +13,11 @@ from employees.views import (
     EmployeeUpdateView,
     EmployeeDeleteView,
     employee_hierarchy,
+    PositionListView,
+    PositionDetailView,
+    PositionCreateView,
+    PositionUpdateView,
+    PositionDeleteView,
 )
 
 urlpatterns = [
@@ -29,6 +34,12 @@ urlpatterns = [
     path("employees/create/", EmployeeCreateView.as_view(), name="employee-create"),
     path("employees/<int:pk>/update/", EmployeeUpdateView.as_view(), name="employee-update"),
     path("employees/<int:pk>/delete/", EmployeeDeleteView.as_view(), name="employee-delete"),
+
+    path("positions/", PositionListView.as_view(), name="positions-list"),
+    path("positions/<int:pk>/", PositionDetailView.as_view(), name="positions-detail"),
+    path("positions/create/", PositionCreateView.as_view(), name="positions-create"),
+    path("positions/<int:pk>/update/", PositionUpdateView.as_view(), name="positions-update"),
+    path("positions/<int:pk>/delete/", PositionDeleteView.as_view(), name="positions-delete"),
 
     path("hierarchy/", employee_hierarchy, name="employees-hierarchy"),
 ]
