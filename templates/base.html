@@ -15,25 +15,22 @@
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 
-<header
-    class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  {% include "includes/navbar.html" %}
-</header>
+{% include "includes/navbar.html" %}
 
 <body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12">
+{#  <div class="container-fluid">#}
+{#    <div class="row">#}
+{#      <div class="col-sm-12" style>#}
 
         {% block content %}{% endblock %}
 
         {% block pagination %}
-          {% include "includes/pagination.html" %}
+{#          {% include "includes/pagination.html" %}#}
         {% endblock %}
 
-      </div>
-    </div>
-  </div>
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
 </body>
 
 </html>
