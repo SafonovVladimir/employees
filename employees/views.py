@@ -7,8 +7,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from employees.forms import UserLoginForm, UserRegisterForm, EmployeeForm
-from employees.models import Employee
+from employees.forms import UserLoginForm, UserRegisterForm, EmployeeForm, \
+    PositionForm
+from employees.models import Employee, Position
 
 
 def index(request):
@@ -134,6 +135,33 @@ class EmployeeUpdateView(LoginRequiredMixin, generic.UpdateView):
 class EmployeeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Employee
     success_url = reverse_lazy("employees:employees-list")
+
+
+class PositionListView(generic.ListView):
+    model = Position
+    context_object_name = "positions_list"
+    template_name = "employees/position_list.html"
+
+
+class PositionDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Position
+
+
+class PositionCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Position
+    form_class = PositionForm
+    success_url = reverse_lazy("employees:positions-list")
+
+
+class PositionUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Position
+    form_class = PositionForm
+    success_url = reverse_lazy("employees:positions-list")
+
+
+class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Position
+    success_url = reverse_lazy("employees:positions-list")
 
 
 def employee_hierarchy(request):

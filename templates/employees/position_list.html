@@ -9,18 +9,11 @@
     </a>
   </h1>
 
-  <form action="" method="get" class="form-inline">
-    {{ search_form|crispy }}
-    <input class="btn btn-secondary" type="submit" value="🔎">
-  </form>
-  <br>
-
   {% if positions_list %}
     <ul>
       {% for position in positions_list %}
         <li>
-          <a href="{% url "employees:positions-detail" pk=position.id %} ">{{ position.id }}</a>
-          {{ position.title }}
+          <a href="{% url "employees:positions-detail" pk=position.id %} ">{{ position.title }}</a>
         </li>
       {% endfor %}
     </ul>

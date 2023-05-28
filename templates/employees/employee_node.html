@@ -1,12 +1,19 @@
 <li>
-  <a href="{% url 'employees:employee-detail' pk=employee.id %}">
-    {{ employee.full_name }} ({{ employee.position }})
-  </a>
-  {% if employee.employees.all %}
-    <ul>
-      {% for subordinate in employee.employees.all %}
-        {% include 'employees/employee_node.html' with employee=subordinate %}
-      {% endfor %}
-    </ul>
-  {% endif %}
+  <div class="card" style="width: 18rem; margin: 10px">
+    <div class="card-body">
+      <div style="display: flex; flex-direction: row">
+        <a href="{% url 'employees:employee-detail' pk=employee.id %}">
+          <h5 class="card-title">{{ employee.full_name }}
+            ({{ employee.position }})</h5>
+        </a>
+        {% if employee.employees.all %}
+          <ul style="list-style: none;">
+            {% for subordinate in employee.employees.all %}
+              {% include 'employees/employee_node.html' with employee=subordinate %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </li>

@@ -3,100 +3,123 @@
 {% load query_transform %}
 
 {% block content %}
-  <article class="navbar-form navbar-left p-0 m-0 ml-b">
-    <div class="form-group">
-      <label>Search: </label>
-      <input type="text" class="form-control post_search_text"
-             placeholder="Enter a keyword">
+  <body class="container-fluid">
+  <div class="row">
+    <div class="span6" style="float: none; margin: 0 auto;">
+      <article class="navbar-form navbar-left p-0 m-0 ml-b">
+        <div class="form-group">
+          <label>Search:
+            <input type="text" class="form-control post_search_text"
+                   placeholder="Enter a keyword">
+          </label>
+        </div>
+        <input type="submit" value="Filter"
+               class="btn btn-primary post_search_submit"/>
+        {% if user.is_authenticated %}
+          <a href="{% url 'employees:employee-create' %}"
+             class="btn btn-primary link-to-page">
+            Add employee
+          </a>
+        {% endif %}
+      </article>
+      <br>
+      {% if employee_list %}
+        <table class="styled-table" id="employees-table">
+          <tr>
+            {#        <th><a href="?order_by=id">ID</a></th>#}
+            <th><a href="?{% url_replace request 'order_by' 'id' %}"
+                   style="text-decoration: none; color: black">ID
+              {% if request.GET.order_by == 'id' %}🔼
+              {% elif request.GET.order_by == '-id' %}
+                🔽{% endif %}</a>
+            </th>
+            <th><a href="?{% url_replace request 'order_by' 'full_name' %}"
+                   style="text-decoration: none; color: black">Full name
+              {% if request.GET.order_by == 'full_name' %}🔼
+              {% elif request.GET.order_by == '-full_name' %}
+                🔽{% endif %}</a>
+            </th>
+            <th><a href="?{% url_replace request 'order_by' 'date_hired' %}"
+                   style="text-decoration: none; color: black">Date hired
+              {% if request.GET.order_by == 'date_hired' %}🔼
+              {% elif request.GET.order_by == '-date_hired' %}
+                🔽{% endif %}</a>
+            </th>
+            <th><a href="?{% url_replace request 'order_by' 'email' %}"
+                   style="text-decoration: none; color: black">Email
+              {% if request.GET.order_by == 'email' %}🔼
+              {% elif request.GET.order_by == '-email' %}
+                🔽{% endif %}</a>
+            </th>
+            <th><a href="?{% url_replace request 'order_by' 'position' %}"
+                   style="text-decoration: none; color: black">Position
+              {% if request.GET.order_by == 'position' %}🔼
+              {% elif request.GET.order_by == '-position' %}
+                🔽{% endif %}</a>
+            </th>
+            <th><a href="?{% url_replace request 'order_by' 'manager' %}"
+                   style="text-decoration: none; color: black">Manager
+              {% if request.GET.order_by == 'manager' %}🔼
+              {% elif request.GET.order_by == '-manager' %}
+                🔽{% endif %}</a>
+            </th>
+          </tr>
+
+          {% for employee in employee_list %}
+            <tr>
+              <td>
+                {{ employee.id }}
+              </td>
+              <td>
+                {{ employee.full_name }}
+              </td>
+              <td>
+                {{ employee.date_hired }}
+              </td>
+              <td>
+                {{ employee.email }}
+              </td>
+              <td>
+                {{ employee.position }}
+              </td>
+              <td>
+                {{ employee.manager }}
+              </td>
+              {% if user.is_authenticated %}
+                <td>
+                  <a
+                      href="{% url 'employees:employee-update' pk=employee.id %}">
+                    <i class="glyphicon glyphicon-edit"></i>
+                  </a>
+                </td>
+                <td>
+                  <a
+                      href="{% url 'employees:employee-delete' pk=employee.id %}">
+                    <i class="glyphicon glyphicon-remove"></i>
+                  </a>
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </table>
+
+      {% else %}
+        <p>There are no employees.</p>
+
+      {% endif %}
     </div>
-    <input type="submit" value="Filter"
-           class="btn btn-primary post_search_submit"/>
-  </article><br>
-  {% if employee_list %}
-    <table class="styled-table" id="employees-table">
-      <tr>
-        {#        <th><a href="?order_by=id">ID</a></th>#}
-        <th><a href="?{% url_replace request 'order_by' 'id' %}"
-               style="text-decoration: none; color: black">ID
-          {% if request.GET.order_by == 'id' %}🔼
-          {% elif request.GET.order_by == '-id' %}
-            🔽{% endif %}</a>
-        </th>
-        <th><a href="?{% url_replace request 'order_by' 'full_name' %}"
-               style="text-decoration: none; color: black">Full name
-          {% if request.GET.order_by == 'full_name' %}🔼
-          {% elif request.GET.order_by == '-full_name' %}
-            🔽{% endif %}</a>
-        </th>
-        <th><a href="?{% url_replace request 'order_by' 'date_hired' %}"
-               style="text-decoration: none; color: black">Date hired
-          {% if request.GET.order_by == 'date_hired' %}🔼
-          {% elif request.GET.order_by == '-date_hired' %}
-            🔽{% endif %}</a>
-        </th>
-        <th><a href="?{% url_replace request 'order_by' 'email' %}"
-               style="text-decoration: none; color: black">Email
-          {% if request.GET.order_by == 'email' %}🔼
-          {% elif request.GET.order_by == '-email' %}
-            🔽{% endif %}</a>
-        </th>
-        <th><a href="?{% url_replace request 'order_by' 'position' %}"
-               style="text-decoration: none; color: black">Position
-          {% if request.GET.order_by == 'position' %}🔼
-          {% elif request.GET.order_by == '-position' %}
-            🔽{% endif %}</a>
-        </th>
-        <th><a href="?{% url_replace request 'order_by' 'manager' %}"
-               style="text-decoration: none; color: black">Manager
-          {% if request.GET.order_by == 'posimanagertion' %}🔼
-          {% elif request.GET.order_by == '-manager' %}
-            🔽{% endif %}</a>
-        </th>
-      </tr>
-
-      {% for employee in employee_list %}
-        <tr>
-          <td>
-            {{ employee.id }}
-          </td>
-          <td>
-            {{ employee.full_name }}
-          </td>
-          <td>
-            {{ employee.date_hired }}
-          </td>
-          <td>
-            {{ employee.email }}
-          </td>
-          <td>
-            {{ employee.position }}
-          </td>
-          <td>
-            {{ employee.manager }}
-          </td>
-          {% if user.is_authenticated %}
-            <td>
-              <a
-                  href="{% url 'employees:employee-update' pk=employee.id %}">
-                <i class="glyphicon glyphicon-edit"></i>
-              </a>
-            </td>
-            <td>
-              <a
-                  href="{% url 'employees:employee-delete' pk=employee.id %}">
-                <i class="glyphicon glyphicon-remove"></i>
-              </a>
-            </td>
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </table>
-
-  {% else %}
-    <p>There are no employees.</p>
-  {% endif %}
+  </div>
+  </body>
 {% endblock %}
-
+{% block pagination %}
+  <body class="container-fluid">
+  <div class="row">
+    <div class="span6" style="float: none; margin: 0 auto;">
+      {% include "includes/pagination.html" %}
+    </div>
+  </div>
+  </body>
+{% endblock %}
 
 <!-- Include jQuery library -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
