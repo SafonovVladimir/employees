@@ -29,13 +29,13 @@ python manage.py runserver #Starts Django Server
 
 ## Demo
 * Login page
-![](readme_pictures\1.jpg)
+![](readme_pictures/1.jpg)
 
 * Sign Up page
-![](readme_pictures\2.jpg)
+![](readme_pictures/2.jpg)
 
 * Employees List
-![](readme_pictures\3.jpg)
+![](readme_pictures/3.jpg)
 
 * Sort by Full name (desc)
-![](readme_pictures\4.jpg)
+![](readme_pictures/4.jpg)
